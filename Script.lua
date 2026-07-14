@@ -1,0 +1,114 @@
+-- Ekran taşıyıcısını ve ana menüyü oluşturuyoruz
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Eski menü varsa önce onu silelim (üst üste binmesin diye)
+if PlayerGui:FindFirstChild("HileMenusu") then
+    PlayerGui.HileMenusu:Destroy()
+end
+
+-- Yeni ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "HileMenusu"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = PlayerGui
+
+-- Ana Panel (Frame)
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 250, 0, 300)
+Frame.Position = UDim2.new(0.1, 0, 0.3, 0) -- Ekranın sol tarafında duracak
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Koyu gri arka plan
+Frame.BorderSizePixel = 2
+Frame.BorderColor3 = Color3.fromRGB(255, 0, 0) -- Kırmızı kenarlık
+Frame.Active = true
+Frame.Draggable = true -- Menüyü ekranda farenle/parmağınla sürükleyebilirsin!
+Frame.Parent = ScreenGui
+
+-- Başlık Yazısı
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Title.Text = "GEMINI LITE MENU v1.0"
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+Title.TextSize = 16
+Title.Font = Enum.Font.SourceSansBold
+Title.Parent = Frame
+
+-- 1. BUTON: HIZI ARTIR (Speed)
+local SpeedButton = Instance.new("TextButton")
+SpeedButton.Size = UDim2.new(0.9, 0, 0, 45)
+SpeedButton.Position = UDim2.new(0.05, 0, 0.25, 0)
+SpeedButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+SpeedButton.Text = "Hız: Normal (16)"
+SpeedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpeedButton.TextSize = 15
+SpeedButton.Font = Enum.Font.SourceSans
+SpeedButton.Parent = Frame
+
+local speedActive = false
+SpeedButton.MouseButton1Click:Connect(function()
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("Humanoid") then
+        speedActive = not speedActive
+        if speedActive then
+            char.Humanoid.WalkSpeed = 100 -- Hızı 100 yapar
+            SpeedButton.Text = "Hız: AKTİF (100)"
+            SpeedButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0) -- Yeşil yap
+        else
+            char.Humanoid.WalkSpeed = 16 -- Normal hıza döndürür
+            SpeedButton.Text = "Hız: Normal (16)"
+            SpeedButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        end
+    end
+end)
+
+-- 2. BUTON: SÜPER ZIPLAMA (Jump)
+local JumpButton = Instance.new("TextButton")
+JumpButton.Size = UDim2.new(0.9, 0, 0, 45)
+JumpButton.Position = UDim2.new(0.05, 0, 0.45, 0)
+JumpButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+JumpButton.Text = "Zıplama: Normal (50)"
+JumpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+JumpButton.TextSize = 15
+JumpButton.Font = Enum.Font.SourceSans
+JumpButton.Parent = Frame
+
+local jumpActive = false
+JumpButton.MouseButton1Click:Connect(function()
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("Humanoid") then
+        jumpActive = not jumpActive
+        if jumpActive then
+            char.Humanoid.JumpPower = 150 -- Zıplama gücünü artırır
+            char.Humanoid.UseJumpPower = true -- Eski oyunlar için uyumluluk
+            JumpButton.Text = "Zıplama: AKTİF (150)"
+            JumpButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        else
+            char.Humanoid.JumpPower = 50 -- Normal zıplama gücü
+            JumpButton.Text = "Zıplama: Normal (50)"
+            JumpButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        end
+    end
+end)
+
+-- 3. BUTON: MENÜYÜ KAPAT (Destroy)
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0.9, 0, 0, 35)
+CloseButton.Position = UDim2.new(0.05, 0, 0.8, 0)
+CloseButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+CloseButton.Text = "Menüyü Kapat ve Sil"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 14
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.Parent = Frame
+
+CloseButton.MouseButton1Click:Connect(function()
+    -- Karakterin hızını ve zıplamasını normale çekip menüyü imha eder
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("Humanoid") then
+        char.Humanoid.WalkSpeed = 16
+        char.Humanoid.JumpPower = 50
+    end
+    ScreenGui:Destroy()
+end)
