@@ -80,7 +80,7 @@ JumpButton.MouseButton1Click:Connect(function()
     if char and char:FindFirstChild("Humanoid") then
         jumpActive = not jumpActive
         if jumpActive then
-            char.Humanoid.JumpPower = 150 -- Zıplama gücünü artırır
+            char.Humanoid.JumpPower = 700 -- Zıplama gücünü artırır
             char.Humanoid.UseJumpPower = true -- Eski oyunlar için uyumluluk
             JumpButton.Text = "Zıplama: AKTİF (150)"
             JumpButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
